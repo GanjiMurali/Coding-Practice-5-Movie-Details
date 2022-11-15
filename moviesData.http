@@ -30,4 +30,4 @@ DELETE http://localhost:3000/movies/:12/
 GET http://localhost:3000/directors/
 ###
 
-GET http://localhost:3000/directors/:directorId/movies/
+GET http://localhost:3000/directors/1/movies/

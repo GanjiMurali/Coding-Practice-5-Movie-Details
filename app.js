@@ -99,4 +99,23 @@ app.get("/directors/", async (request, response) => {
   response.send(newDirectorArray);
 });
 
+//7) GET Returns a list of all movie names directed by a specific director
+app.get("/directors/:directorId/movies/", async (request, response) => {
+  const { directorId } = request.params;
+  const getMovieNameQuery = `SELECT movie_name FROM movie JOIN director ON movie.director_id = director.director_id WHERE movie.director_id = ${directorId};`;
+  const dbResponse = await db.all(getMovieNameQuery);
+  const convertDbObjectToResponseObject = (dbObject) => {
+    return {
+      movieName: dbObject.movie_name,
+    };
+  };
+
+  newMovieNameArray = [];
+  for (let movieName of dbResponse) {
+    let movie = convertDbObjectToResponseObject(movieName);
+    newMovieNameArray.push(movie);
+  }
+  response.send(newMovieNameArray);
+});
+
 module.exports = app;
