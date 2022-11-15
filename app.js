@@ -58,7 +58,20 @@ app.get("/movies/:movieId/", async (request, response) => {
   const { movieId } = request.params;
   const getMovieQuery = `SELECT * FROM movie WHERE movie_id = ${movieId};`;
   const dbResponse = await db.get(getMovieQuery);
-  response.send(dbResponse);
+  
+  const convertDbObjectToResponseObject = (dbObject) => {
+    return {
+      movieId: dbObject.movie_id,
+      directorId: dbObject.director_id,
+      movieName: dbObject.movie_name,
+      leadActor: dbObject.lead_actor,
+    };
+  };
+
+  let movieDetails = convertDbObjectToResponseObject(dbResponse);
+
+  response.send(movieDetails);
+  
 });
 
 //4) PUT Update Movie Details With Movie Id
